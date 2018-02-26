@@ -70,7 +70,10 @@ for packet in pc:
   #print "inspect packet, proto", packet.proto, packet.sport, packet.dport
   if packet.proto == proto:
     if packet.sport == portnum or packet.dport == portnum:
-      pl = packet.load
+      try:
+        pl = packet.load
+      except: # no packet payload, just an ack or syn or whatever
+        continue
       if comparelist(pl, mydict.keys(), ignorebytes):
         #print "seen before, adding"
         # first find the key to append to
