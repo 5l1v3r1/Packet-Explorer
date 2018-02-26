@@ -68,7 +68,12 @@ packetnum = 1
 mydict = {}
 for packet in pc:
   #print "inspect packet, proto", packet.proto, packet.sport, packet.dport
+  try:
+    pproto = packet.proto
+  except: # packet had no protocol defined
+    continue
   if packet.proto == proto:
+    # safe to assume that any tcp or udp packet will have sport and dport
     if packet.sport == portnum or packet.dport == portnum:
       try:
         pl = packet.load
