@@ -71,6 +71,7 @@ for packet in pc:
   try:
     pproto = packet.proto
   except: # packet had no protocol defined
+    packetnum += 1
     continue
   if packet.proto == proto:
     # safe to assume that any tcp or udp packet will have sport and dport
@@ -78,6 +79,7 @@ for packet in pc:
       try:
         pl = packet.load
       except: # no packet payload, just an ack or syn or whatever
+        packetnum += 1
         continue
       if comparelist(pl, mydict.keys(), ignorebytes):
         #print "seen before, adding"
